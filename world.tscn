@@ -1,0 +1,1105 @@
+[gd_scene load_steps=23 format=3 uid="uid://b57uspbprxc8"]
+
+[ext_resource type="Script" uid="uid://d4ewj1xsdqf37" path="res://scripts/world.gd" id="1_ho7yh"]
+[ext_resource type="PackedScene" uid="uid://bd3ai1v40ssao" path="res://map.tscn" id="3_fd0sg"]
+[ext_resource type="Script" uid="uid://dnd2c4vfbgclo" path="res://scripts/ui/fps_counter.gd" id="4_2328u"]
+[ext_resource type="Script" uid="uid://qr7sr8n2vvit" path="res://scripts/ui/menu/host_button.gd" id="4_nuahp"]
+[ext_resource type="Shader" uid="uid://f1p4swoacgc0" path="res://scripts/shaders/blur.gdshader" id="4_p7mxg"]
+[ext_resource type="AudioStream" uid="uid://p6uvqtljqic7" path="res://audio/661248__magmadiverrr__video-game-menu-music.ogg" id="4_taatn"]
+[ext_resource type="Script" uid="uid://necm61n1e0ro" path="res://scripts/ui/menu/options/fullscreen.gd" id="5_abwkb"]
+[ext_resource type="Script" uid="uid://mv4fgyqehysl" path="res://scripts/ui/menu/options/mouse_sensitivity.gd" id="6_00vww"]
+[ext_resource type="Script" uid="uid://b0med4135fhpq" path="res://scripts/ui/menu/options/back.gd" id="6_2hany"]
+[ext_resource type="Script" uid="uid://cjc2a5v42imwc" path="res://scripts/ui/menu/options_button.gd" id="6_7g7sm"]
+[ext_resource type="Script" uid="uid://cfy7swbhnlx53" path="res://scripts/ui/menu/pause/resume.gd" id="7_5cdyw"]
+[ext_resource type="Script" uid="uid://07i5wcm2cwoq" path="res://scripts/ui/menu/options/controller_sensitivity.gd" id="7_jhf7u"]
+[ext_resource type="Script" uid="uid://b4x7kcgviw16f" path="res://scripts/ui/menu/pause/quit.gd" id="9_ucmny"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_r06yd"]
+energy_multiplier = 1.25
+
+[sub_resource type="Sky" id="Sky_78err"]
+sky_material = SubResource("PhysicalSkyMaterial_r06yd")
+
+[sub_resource type="Environment" id="Environment_v7lsv"]
+background_mode = 2
+sky = SubResource("Sky_78err")
+tonemap_mode = 2
+tonemap_white = 6.0
+ssao_enabled = true
+glow_blend_mode = 4
+fog_enabled = true
+fog_sun_scatter = 0.17
+fog_density = 0.0099
+fog_aerial_perspective = 1.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_wntx8"]
+
+[sub_resource type="Animation" id="Animation_ug7wi"]
+resource_name = "Dolly"
+length = 120.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../DollyCamera:position:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0.659, -0.25, 0, 0.25, 0, -14.157, -0.25, 0, 0.25, 0, 13.2434, -0.25, 0, 0.25, 0, 0.659, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 30.0667, 89.9333, 120)
+}
+
+[sub_resource type="Animation" id="Animation_ei2s0"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../DollyCamera:position:z")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(13.2434, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lekn2"]
+_data = {
+&"Dolly": SubResource("Animation_ug7wi"),
+&"RESET": SubResource("Animation_ei2s0")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nou27"]
+shader = ExtResource("4_p7mxg")
+shader_parameter/blur_amount = 2.0
+shader_parameter/mix_amount = 0.0
+shader_parameter/color_over = Color(0, 0, 0, 1)
+
+[sub_resource type="Theme" id="Theme_utqnk"]
+
+[node name="World" type="Node"]
+script = ExtResource("1_ho7yh")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_v7lsv")
+camera_attributes = SubResource("CameraAttributesPractical_wntx8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.835807, -0.47011, 0.283589, -0.375944, 0.866496, 0.328406, -0.400115, 0.167871, -0.900959, 0, 4.88489, 0)
+light_temperature = 4300.0
+light_energy = 5.0
+shadow_enabled = true
+shadow_bias = 0.0
+directional_shadow_split_1 = 0.04
+directional_shadow_split_2 = 0.11
+directional_shadow_split_3 = 0.33
+directional_shadow_blend_splits = true
+directional_shadow_max_distance = 99.3
+
+[node name="FpsCounter" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("4_2328u")
+
+[node name="map" parent="." instance=ExtResource("3_fd0sg")]
+
+[node name="Cargo_015" parent="map" index="5"]
+surface_material_override/0 = null
+
+[node name="Cargo_016" parent="map" index="6"]
+surface_material_override/0 = null
+
+[node name="Cargo_017" parent="map" index="7"]
+surface_material_override/0 = null
+
+[node name="Cargo_018" parent="map" index="18"]
+surface_material_override/0 = null
+
+[node name="Cargo_019" parent="map" index="19"]
+surface_material_override/0 = null
+
+[node name="Cargo_020" parent="map" index="20"]
+surface_material_override/0 = null
+
+[node name="Cargo_021" parent="map" index="21"]
+surface_material_override/0 = null
+
+[node name="Cargo both open_002" parent="map" index="26"]
+surface_material_override/0 = null
+
+[node name="barrel_301" parent="map" index="32"]
+surface_material_override/0 = null
+
+[node name="barrel_302" parent="map" index="33"]
+surface_material_override/0 = null
+
+[node name="barrel_311" parent="map" index="34"]
+surface_material_override/0 = null
+
+[node name="barrel_303" parent="map" index="35"]
+surface_material_override/0 = null
+
+[node name="barrel_310" parent="map" index="36"]
+surface_material_override/0 = null
+
+[node name="barrel_304" parent="map" index="37"]
+surface_material_override/0 = null
+
+[node name="barrel_305" parent="map" index="38"]
+surface_material_override/0 = null
+
+[node name="barrel_308" parent="map" index="39"]
+surface_material_override/0 = null
+
+[node name="barrel_309" parent="map" index="40"]
+surface_material_override/0 = null
+
+[node name="barrel_232" parent="map" index="43"]
+surface_material_override/0 = null
+
+[node name="barrel_233" parent="map" index="44"]
+surface_material_override/0 = null
+
+[node name="barrel_234" parent="map" index="45"]
+surface_material_override/0 = null
+
+[node name="barrel_235" parent="map" index="46"]
+surface_material_override/0 = null
+
+[node name="barrel_225" parent="map" index="47"]
+surface_material_override/0 = null
+
+[node name="barrel_223" parent="map" index="48"]
+surface_material_override/0 = null
+
+[node name="barrel_224" parent="map" index="49"]
+surface_material_override/0 = null
+
+[node name="barrel_217" parent="map" index="50"]
+surface_material_override/0 = null
+
+[node name="barrel_218" parent="map" index="51"]
+surface_material_override/0 = null
+
+[node name="barrel_219" parent="map" index="52"]
+surface_material_override/0 = null
+
+[node name="barrel_220" parent="map" index="53"]
+surface_material_override/0 = null
+
+[node name="barrel_060" parent="map" index="55"]
+surface_material_override/0 = null
+
+[node name="barrel_062" parent="map" index="56"]
+surface_material_override/0 = null
+
+[node name="barrel_063" parent="map" index="57"]
+surface_material_override/0 = null
+
+[node name="barrel_064" parent="map" index="58"]
+surface_material_override/0 = null
+
+[node name="barrel_066" parent="map" index="59"]
+surface_material_override/0 = null
+
+[node name="barrel_067" parent="map" index="60"]
+surface_material_override/0 = null
+
+[node name="barrel_068" parent="map" index="61"]
+surface_material_override/0 = null
+
+[node name="barrel_073" parent="map" index="62"]
+surface_material_override/0 = null
+
+[node name="barrel_074" parent="map" index="63"]
+surface_material_override/0 = null
+
+[node name="barrel_075" parent="map" index="64"]
+surface_material_override/0 = null
+
+[node name="barrel_153" parent="map" index="65"]
+surface_material_override/0 = null
+
+[node name="barrel_154" parent="map" index="66"]
+surface_material_override/0 = null
+
+[node name="barrel_261" parent="map" index="67"]
+surface_material_override/0 = null
+
+[node name="barrel_262" parent="map" index="68"]
+surface_material_override/0 = null
+
+[node name="barrel_241" parent="map" index="69"]
+surface_material_override/0 = null
+
+[node name="barrel_242" parent="map" index="70"]
+surface_material_override/0 = null
+
+[node name="barrel_243" parent="map" index="71"]
+surface_material_override/0 = null
+
+[node name="barrel_244" parent="map" index="72"]
+surface_material_override/0 = null
+
+[node name="barrel_245" parent="map" index="73"]
+surface_material_override/0 = null
+
+[node name="barrel_246" parent="map" index="74"]
+surface_material_override/0 = null
+
+[node name="barrel_247" parent="map" index="75"]
+surface_material_override/0 = null
+
+[node name="barrel_248" parent="map" index="76"]
+surface_material_override/0 = null
+
+[node name="barrel_269" parent="map" index="77"]
+surface_material_override/0 = null
+
+[node name="barrel_270" parent="map" index="78"]
+surface_material_override/0 = null
+
+[node name="barrel_249" parent="map" index="79"]
+surface_material_override/0 = null
+
+[node name="barrel_250" parent="map" index="80"]
+surface_material_override/0 = null
+
+[node name="barrel_251" parent="map" index="81"]
+surface_material_override/0 = null
+
+[node name="barrel_252" parent="map" index="82"]
+surface_material_override/0 = null
+
+[node name="barrel_253" parent="map" index="83"]
+surface_material_override/0 = null
+
+[node name="barrel_254" parent="map" index="84"]
+surface_material_override/0 = null
+
+[node name="barrel_259" parent="map" index="85"]
+surface_material_override/0 = null
+
+[node name="barrel_260" parent="map" index="86"]
+surface_material_override/0 = null
+
+[node name="barrel_239" parent="map" index="88"]
+surface_material_override/0 = null
+
+[node name="barrel_271" parent="map" index="89"]
+surface_material_override/0 = null
+
+[node name="barrel_272" parent="map" index="90"]
+surface_material_override/0 = null
+
+[node name="barrel_273" parent="map" index="91"]
+surface_material_override/0 = null
+
+[node name="barrel_274" parent="map" index="92"]
+surface_material_override/0 = null
+
+[node name="barrel_275" parent="map" index="93"]
+surface_material_override/0 = null
+
+[node name="barrel_277" parent="map" index="94"]
+surface_material_override/0 = null
+
+[node name="barrel_278" parent="map" index="95"]
+surface_material_override/0 = null
+
+[node name="barrel_280" parent="map" index="96"]
+surface_material_override/0 = null
+
+[node name="barrel_292" parent="map" index="97"]
+surface_material_override/0 = null
+
+[node name="barrel_293" parent="map" index="98"]
+surface_material_override/0 = null
+
+[node name="barrel_294" parent="map" index="99"]
+surface_material_override/0 = null
+
+[node name="barrel_295" parent="map" index="100"]
+surface_material_override/0 = null
+
+[node name="barrel_296" parent="map" index="101"]
+surface_material_override/0 = null
+
+[node name="barrel_297" parent="map" index="102"]
+surface_material_override/0 = null
+
+[node name="barrel_298" parent="map" index="103"]
+surface_material_override/0 = null
+
+[node name="barrel_299" parent="map" index="104"]
+surface_material_override/0 = null
+
+[node name="barrel_300" parent="map" index="105"]
+surface_material_override/0 = null
+
+[node name="barrel_069" parent="map" index="115"]
+surface_material_override/0 = null
+
+[node name="barrel_070" parent="map" index="116"]
+surface_material_override/0 = null
+
+[node name="barrel_061" parent="map" index="117"]
+surface_material_override/0 = null
+
+[node name="barrel_065" parent="map" index="118"]
+surface_material_override/0 = null
+
+[node name="barrel_072" parent="map" index="120"]
+surface_material_override/0 = null
+
+[node name="barrel_076" parent="map" index="121"]
+surface_material_override/0 = null
+
+[node name="barrel_103" parent="map" index="122"]
+surface_material_override/0 = null
+
+[node name="barrel_059" parent="map" index="123"]
+surface_material_override/0 = null
+
+[node name="barrel_221" parent="map" index="125"]
+surface_material_override/0 = null
+
+[node name="barrel_222" parent="map" index="126"]
+surface_material_override/0 = null
+
+[node name="barrel_101" parent="map" index="127"]
+surface_material_override/0 = null
+
+[node name="barrel_102" parent="map" index="128"]
+surface_material_override/0 = null
+
+[node name="barrel_086" parent="map" index="130"]
+surface_material_override/0 = null
+
+[node name="barrel_091" parent="map" index="132"]
+surface_material_override/0 = null
+
+[node name="barrel_092" parent="map" index="133"]
+surface_material_override/0 = null
+
+[node name="barrel_093" parent="map" index="134"]
+surface_material_override/0 = null
+
+[node name="barrel_094" parent="map" index="135"]
+surface_material_override/0 = null
+
+[node name="barrel_095" parent="map" index="136"]
+surface_material_override/0 = null
+
+[node name="barrel_096" parent="map" index="137"]
+surface_material_override/0 = null
+
+[node name="barrel_088" parent="map" index="138"]
+surface_material_override/0 = null
+
+[node name="barrel_097" parent="map" index="139"]
+surface_material_override/0 = null
+
+[node name="barrel_098" parent="map" index="140"]
+surface_material_override/0 = null
+
+[node name="barrel_099" parent="map" index="141"]
+surface_material_override/0 = null
+
+[node name="barrel_100" parent="map" index="142"]
+surface_material_override/0 = null
+
+[node name="barrel_089" parent="map" index="143"]
+surface_material_override/0 = null
+
+[node name="barrel_090" parent="map" index="144"]
+surface_material_override/0 = null
+
+[node name="barrel_083" parent="map" index="145"]
+surface_material_override/0 = null
+
+[node name="barrel_084" parent="map" index="146"]
+surface_material_override/0 = null
+
+[node name="barrel_085" parent="map" index="147"]
+surface_material_override/0 = null
+
+[node name="barrel_087" parent="map" index="150"]
+surface_material_override/0 = null
+
+[node name="barrel_049" parent="map" index="159"]
+surface_material_override/0 = null
+
+[node name="barrel_050" parent="map" index="160"]
+surface_material_override/0 = null
+
+[node name="barrel_051" parent="map" index="161"]
+surface_material_override/0 = null
+
+[node name="barrel_045" parent="map" index="162"]
+surface_material_override/0 = null
+
+[node name="barrel_046" parent="map" index="163"]
+surface_material_override/0 = null
+
+[node name="barrel_047" parent="map" index="164"]
+surface_material_override/0 = null
+
+[node name="barrel_048" parent="map" index="165"]
+surface_material_override/0 = null
+
+[node name="barrel_155" parent="map" index="166"]
+surface_material_override/0 = null
+
+[node name="barrel_156" parent="map" index="167"]
+surface_material_override/0 = null
+
+[node name="barrel_182" parent="map" index="168"]
+surface_material_override/0 = null
+
+[node name="barrel_183" parent="map" index="169"]
+surface_material_override/0 = null
+
+[node name="barrel_157" parent="map" index="170"]
+surface_material_override/0 = null
+
+[node name="barrel_158" parent="map" index="171"]
+surface_material_override/0 = null
+
+[node name="barrel_159" parent="map" index="172"]
+surface_material_override/0 = null
+
+[node name="barrel_160" parent="map" index="173"]
+surface_material_override/0 = null
+
+[node name="barrel_161" parent="map" index="174"]
+surface_material_override/0 = null
+
+[node name="barrel_162" parent="map" index="175"]
+surface_material_override/0 = null
+
+[node name="barrel_163" parent="map" index="176"]
+surface_material_override/0 = null
+
+[node name="barrel_164" parent="map" index="177"]
+surface_material_override/0 = null
+
+[node name="barrel_165" parent="map" index="178"]
+surface_material_override/0 = null
+
+[node name="barrel_184" parent="map" index="179"]
+surface_material_override/0 = null
+
+[node name="barrel_185" parent="map" index="180"]
+surface_material_override/0 = null
+
+[node name="barrel_186" parent="map" index="181"]
+surface_material_override/0 = null
+
+[node name="barrel_166" parent="map" index="182"]
+surface_material_override/0 = null
+
+[node name="barrel_177" parent="map" index="183"]
+surface_material_override/0 = null
+
+[node name="barrel_167" parent="map" index="184"]
+surface_material_override/0 = null
+
+[node name="barrel_168" parent="map" index="185"]
+surface_material_override/0 = null
+
+[node name="barrel_169" parent="map" index="186"]
+surface_material_override/0 = null
+
+[node name="barrel_170" parent="map" index="187"]
+surface_material_override/0 = null
+
+[node name="barrel_171" parent="map" index="188"]
+surface_material_override/0 = null
+
+[node name="barrel_172" parent="map" index="189"]
+surface_material_override/0 = null
+
+[node name="barrel_173" parent="map" index="190"]
+surface_material_override/0 = null
+
+[node name="barrel_174" parent="map" index="191"]
+surface_material_override/0 = null
+
+[node name="barrel_175" parent="map" index="192"]
+surface_material_override/0 = null
+
+[node name="barrel_176" parent="map" index="193"]
+surface_material_override/0 = null
+
+[node name="barrel_188" parent="map" index="196"]
+surface_material_override/0 = null
+
+[node name="barrel_200" parent="map" index="197"]
+surface_material_override/0 = null
+
+[node name="barrel_201" parent="map" index="198"]
+surface_material_override/0 = null
+
+[node name="barrel_202" parent="map" index="199"]
+surface_material_override/0 = null
+
+[node name="barrel_203" parent="map" index="200"]
+surface_material_override/0 = null
+
+[node name="barrel_204" parent="map" index="201"]
+surface_material_override/0 = null
+
+[node name="barrel_240" parent="map" index="202"]
+surface_material_override/0 = null
+
+[node name="barrel_207" parent="map" index="203"]
+surface_material_override/0 = null
+
+[node name="barrel_205" parent="map" index="204"]
+surface_material_override/0 = null
+
+[node name="barrel_206" parent="map" index="205"]
+surface_material_override/0 = null
+
+[node name="barrel_189" parent="map" index="206"]
+surface_material_override/0 = null
+
+[node name="barrel_190" parent="map" index="207"]
+surface_material_override/0 = null
+
+[node name="barrel_209" parent="map" index="208"]
+surface_material_override/0 = null
+
+[node name="barrel_210" parent="map" index="209"]
+surface_material_override/0 = null
+
+[node name="barrel_211" parent="map" index="210"]
+surface_material_override/0 = null
+
+[node name="barrel_212" parent="map" index="211"]
+surface_material_override/0 = null
+
+[node name="barrel_213" parent="map" index="212"]
+surface_material_override/0 = null
+
+[node name="barrel_214" parent="map" index="213"]
+surface_material_override/0 = null
+
+[node name="barrel_215" parent="map" index="214"]
+surface_material_override/0 = null
+
+[node name="barrel_216" parent="map" index="215"]
+surface_material_override/0 = null
+
+[node name="barrel_196" parent="map" index="216"]
+surface_material_override/0 = null
+
+[node name="barrel_197" parent="map" index="217"]
+surface_material_override/0 = null
+
+[node name="barrel_199" parent="map" index="218"]
+surface_material_override/0 = null
+
+[node name="barrel_193" parent="map" index="219"]
+surface_material_override/0 = null
+
+[node name="barrel_194" parent="map" index="220"]
+surface_material_override/0 = null
+
+[node name="barrel_195" parent="map" index="221"]
+surface_material_override/0 = null
+
+[node name="barrel_198" parent="map" index="222"]
+surface_material_override/0 = null
+
+[node name="barrel_191" parent="map" index="223"]
+surface_material_override/0 = null
+
+[node name="barrel_192" parent="map" index="224"]
+surface_material_override/0 = null
+
+[node name="barrel_040" parent="map" index="225"]
+surface_material_override/0 = null
+
+[node name="barrel_187" parent="map" index="226"]
+surface_material_override/0 = null
+
+[node name="barrel_208" parent="map" index="227"]
+surface_material_override/0 = null
+
+[node name="barrel_035" parent="map" index="228"]
+surface_material_override/0 = null
+
+[node name="barrel_039" parent="map" index="229"]
+surface_material_override/0 = null
+
+[node name="barrel_036" parent="map" index="230"]
+surface_material_override/0 = null
+
+[node name="barrel_037" parent="map" index="231"]
+surface_material_override/0 = null
+
+[node name="barrel_038" parent="map" index="232"]
+surface_material_override/0 = null
+
+[node name="barrel_041" parent="map" index="233"]
+surface_material_override/0 = null
+
+[node name="barrel_082" parent="map" index="235"]
+surface_material_override/0 = null
+
+[node name="barrel_081" parent="map" index="237"]
+surface_material_override/0 = null
+
+[node name="barrel_077" parent="map" index="238"]
+surface_material_override/0 = null
+
+[node name="barrel_080" parent="map" index="239"]
+surface_material_override/0 = null
+
+[node name="barrel_078" parent="map" index="240"]
+surface_material_override/0 = null
+
+[node name="barrel_079" parent="map" index="241"]
+surface_material_override/0 = null
+
+[node name="barrel_044" parent="map" index="243"]
+surface_material_override/0 = null
+
+[node name="barrel_104" parent="map" index="244"]
+surface_material_override/0 = null
+
+[node name="barrel_140" parent="map" index="245"]
+surface_material_override/0 = null
+
+[node name="barrel_105" parent="map" index="246"]
+surface_material_override/0 = null
+
+[node name="barrel_106" parent="map" index="247"]
+surface_material_override/0 = null
+
+[node name="barrel_126" parent="map" index="248"]
+surface_material_override/0 = null
+
+[node name="barrel_127" parent="map" index="249"]
+surface_material_override/0 = null
+
+[node name="barrel_128" parent="map" index="250"]
+surface_material_override/0 = null
+
+[node name="barrel_129" parent="map" index="251"]
+surface_material_override/0 = null
+
+[node name="barrel_130" parent="map" index="252"]
+surface_material_override/0 = null
+
+[node name="barrel_131" parent="map" index="253"]
+surface_material_override/0 = null
+
+[node name="barrel_132" parent="map" index="254"]
+surface_material_override/0 = null
+
+[node name="barrel_133" parent="map" index="255"]
+surface_material_override/0 = null
+
+[node name="barrel_134" parent="map" index="256"]
+surface_material_override/0 = null
+
+[node name="barrel_135" parent="map" index="257"]
+surface_material_override/0 = null
+
+[node name="barrel_136" parent="map" index="258"]
+surface_material_override/0 = null
+
+[node name="barrel_137" parent="map" index="259"]
+surface_material_override/0 = null
+
+[node name="barrel_138" parent="map" index="260"]
+surface_material_override/0 = null
+
+[node name="barrel_139" parent="map" index="261"]
+surface_material_override/0 = null
+
+[node name="barrel_107" parent="map" index="262"]
+surface_material_override/0 = null
+
+[node name="barrel_108" parent="map" index="263"]
+surface_material_override/0 = null
+
+[node name="barrel_109" parent="map" index="264"]
+surface_material_override/0 = null
+
+[node name="barrel_110" parent="map" index="265"]
+surface_material_override/0 = null
+
+[node name="barrel_111" parent="map" index="266"]
+surface_material_override/0 = null
+
+[node name="barrel_112" parent="map" index="267"]
+surface_material_override/0 = null
+
+[node name="barrel_113" parent="map" index="268"]
+surface_material_override/0 = null
+
+[node name="barrel_142" parent="map" index="269"]
+surface_material_override/0 = null
+
+[node name="barrel_146" parent="map" index="270"]
+surface_material_override/0 = null
+
+[node name="barrel_147" parent="map" index="271"]
+surface_material_override/0 = null
+
+[node name="barrel_143" parent="map" index="272"]
+surface_material_override/0 = null
+
+[node name="barrel_144" parent="map" index="273"]
+surface_material_override/0 = null
+
+[node name="barrel_114" parent="map" index="274"]
+surface_material_override/0 = null
+
+[node name="barrel_115" parent="map" index="275"]
+surface_material_override/0 = null
+
+[node name="barrel_116" parent="map" index="276"]
+surface_material_override/0 = null
+
+[node name="barrel_117" parent="map" index="277"]
+surface_material_override/0 = null
+
+[node name="barrel_118" parent="map" index="278"]
+surface_material_override/0 = null
+
+[node name="barrel_119" parent="map" index="279"]
+surface_material_override/0 = null
+
+[node name="barrel_120" parent="map" index="280"]
+surface_material_override/0 = null
+
+[node name="barrel_121" parent="map" index="281"]
+surface_material_override/0 = null
+
+[node name="barrel_122" parent="map" index="282"]
+surface_material_override/0 = null
+
+[node name="barrel_123" parent="map" index="283"]
+surface_material_override/0 = null
+
+[node name="barrel_124" parent="map" index="284"]
+surface_material_override/0 = null
+
+[node name="barrel_125" parent="map" index="285"]
+surface_material_override/0 = null
+
+[node name="barrel_042" parent="map" index="286"]
+surface_material_override/0 = null
+
+[node name="barrel_043" parent="map" index="287"]
+surface_material_override/0 = null
+
+[node name="barrel_148" parent="map" index="288"]
+surface_material_override/0 = null
+
+[node name="barrel_053" parent="map" index="289"]
+surface_material_override/0 = null
+
+[node name="barrel_145" parent="map" index="290"]
+surface_material_override/0 = null
+
+[node name="barrel_054" parent="map" index="291"]
+surface_material_override/0 = null
+
+[node name="barrel_055" parent="map" index="292"]
+surface_material_override/0 = null
+
+[node name="barrel_149" parent="map" index="293"]
+surface_material_override/0 = null
+
+[node name="barrel_150" parent="map" index="294"]
+surface_material_override/0 = null
+
+[node name="barrel_151" parent="map" index="295"]
+surface_material_override/0 = null
+
+[node name="barrel_152" parent="map" index="296"]
+surface_material_override/0 = null
+
+[node name="barrel_178" parent="map" index="297"]
+surface_material_override/0 = null
+
+[node name="barrel_180" parent="map" index="298"]
+surface_material_override/0 = null
+
+[node name="barrel_181" parent="map" index="299"]
+surface_material_override/0 = null
+
+[node name="barrel_179" parent="map" index="300"]
+surface_material_override/0 = null
+
+[node name="barrel_056" parent="map" index="301"]
+surface_material_override/0 = null
+
+[node name="barrel_052" parent="map" index="302"]
+surface_material_override/0 = null
+
+[node name="barrel_057" parent="map" index="303"]
+surface_material_override/0 = null
+
+[node name="barrel_058" parent="map" index="304"]
+surface_material_override/0 = null
+
+[node name="barrel_141" parent="map" index="306"]
+surface_material_override/0 = null
+
+[node name="Menu" type="CanvasLayer" parent="."]
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="Menu"]
+unique_name_in_owner = true
+stream = ExtResource("4_taatn")
+volume_db = -20.0
+autoplay = true
+bus = &"Music"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Menu"]
+root_node = NodePath("../Blur")
+libraries = {
+&"": SubResource("AnimationLibrary_lekn2")
+}
+autoplay = "Dolly"
+
+[node name="Blur" type="ColorRect" parent="Menu"]
+material = SubResource("ShaderMaterial_nou27")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DollyCamera" type="Camera3D" parent="Menu"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0.702964, 13.2434)
+
+[node name="Options" type="PanelContainer" parent="Menu"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_right = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_utqnk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/Options"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/Options/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="OptionsLabel" type="Label" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Fullscreen" type="CheckButton" parent="Menu/Options/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Fullscreen"
+script = ExtResource("5_abwkb")
+
+[node name="FpsCounter" type="CheckButton" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "FPS counter"
+
+[node name="Ping" type="CheckButton" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+tooltip_text = "Shows connection trip time to host (in milliseconds)"
+text = "View Ping"
+
+[node name="SensitivityLabel" type="Label" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sensitivity"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Mouse sensitivity"
+
+[node name="MouseSensitivity" type="HSlider" parent="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.001
+max_value = 0.1
+step = 0.001
+value = 0.005
+script = ExtResource("6_00vww")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Controller sensitivity"
+
+[node name="ControllerSensitivity" type="HSlider" parent="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.001
+max_value = 0.1
+step = 0.001
+value = 0.01
+script = ExtResource("7_jhf7u")
+
+[node name="Back" type="Button" parent="Menu/Options/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back"
+script = ExtResource("6_2hany")
+
+[node name="PauseMenu" type="PanelContainer" parent="Menu"]
+visible = false
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_right = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/PauseMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/PauseMenu/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="PauseLabel" type="Label" parent="Menu/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pause Menu
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume" type="Button" parent="Menu/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Resume"
+script = ExtResource("7_5cdyw")
+
+[node name="Options" type="Button" parent="Menu/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Options
+"
+
+[node name="Quit" type="Button" parent="Menu/PauseMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("9_ucmny")
+
+[node name="MainMenu" type="PanelContainer" parent="Menu"]
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 391.0
+grow_vertical = 2
+theme = SubResource("Theme_utqnk")
+
+[node name="MarginContainer" type="MarginContainer" parent="Menu/MainMenu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/MainMenu/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+
+[node name="MainMenuLabel" type="Label" parent="Menu/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HostButton" type="Button" parent="Menu/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+script = ExtResource("4_nuahp")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="AddressEntry" type="LineEdit" parent="Menu/MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Enter Address Here to join"
+alignment = 1
+
+[node name="JoinButton" type="Button" parent="Menu/MainMenu/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "  Join  "
+
+[node name="OptionsButton" type="Button" parent="Menu/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Options"
+script = ExtResource("6_7g7sm")
+
+[node name="Quit" type="Button" parent="Menu/MainMenu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit"
+script = ExtResource("9_ucmny")
+
+[node name="MusicToggle" type="CheckButton" parent="Menu/MainMenu"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+button_pressed = true
+text = "Music"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://b2qhxdrnviyqf")
+spawn_path = NodePath("..")
+
+[connection signal="toggled" from="Menu/Options/MarginContainer/VBoxContainer/FpsCounter" to="FpsCounter" method="_on_fps_counter_toggled"]
+[connection signal="toggled" from="Menu/Options/MarginContainer/VBoxContainer/Ping" to="FpsCounter" method="_on_ping_toggled"]
+[connection signal="value_changed" from="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer/MouseSensitivity" to="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer/MouseSensitivity" method="_on_value_changed"]
+[connection signal="value_changed" from="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer2/ControllerSensitivity" to="Menu/Options/MarginContainer/VBoxContainer/HBoxContainer2/ControllerSensitivity" method="_on_value_changed"]
+[connection signal="pressed" from="Menu/Options/MarginContainer/VBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Menu/Options/MarginContainer/VBoxContainer/Back" to="Menu/PauseMenu/MarginContainer/VBoxContainer/Options" method="_on_back_pressed"]
+[connection signal="pressed" from="Menu/Options/MarginContainer/VBoxContainer/Back" to="Menu/MainMenu/MarginContainer/VBoxContainer/OptionsButton" method="_on_back_pressed"]
+[connection signal="pressed" from="Menu/PauseMenu/MarginContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="Menu/PauseMenu/MarginContainer/VBoxContainer/Options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="Menu/MainMenu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
+[connection signal="pressed" from="Menu/MainMenu/MarginContainer/VBoxContainer/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="toggled" from="Menu/MainMenu/MarginContainer/VBoxContainer/OptionsButton" to="." method="_on_options_button_toggled"]
+[connection signal="toggled" from="Menu/MainMenu/MarginContainer/VBoxContainer/OptionsButton" to="Menu/Options/MarginContainer/VBoxContainer/Fullscreen" method="_on_options_button_toggled"]
+[connection signal="toggled" from="Menu/MainMenu/MusicToggle" to="." method="_on_music_toggle_toggled"]
+
+[editable path="map"]
